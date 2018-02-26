@@ -1,0 +1,28 @@
+Explanation: 
+The <fieldset>...</fieldset> tag groups related elements and displays them in a box. The <legend>...</legend> tag provides the legend for the box.
+This HTML form (enclosed within <form>...</form>) contains the following types of input elements:
+Text field (<input type="text">): for web users to enter text.
+Radio buttons (<input type="radio">): choose any one (and possibly none).
+Pull-down menu (<select> and <option>): pull-down menu of options.
+Checkboxes (<input type="checkbox">): chose none or more.
+Text area (<textarea>...<textarea>): for web users to enter multi-line text. (Text field for single line only.)
+Hidden field (<input type="hidden">): for submitting hidden name=value pair.
+Submit button (<input type=submit>): user clicks this button to submit the form data to the server.
+Reset button (<input type="reset">): resets all the input field to their default value.
+Each of the input elements has an attribute "name", and an optional attribute "value". If an element is selected, its "name=value" pair will be submitted to the server for processing.
+The <form> start-tag also specifies the URL for submission in the action="url" attribute, and the request method in the method="get|post" attribute.
+
+For example, suppose that we enter "Alan Smith" in the text field, select "male", and click the "SEND" button, we will get a "404 page not found" error (because we have yet to write the processing script). BUT observe the destination URL:
+
+http://localhost:8080/helloservlet/echo?username=Alan+Smith&gender=m&....
+
+Observe that:
+
+The URL http://localhost:8080/helloservlet/echo is retrieved from the attribute action="echo" of the <form> start-tag. Relative URL is used in this example. The base URL for the current page "form_input.html" is http://localhost:8080/helloservlet/. Hence, the relative URL "echo" resolves into http://localhost:8080/helloservlet/echo.
+
+A '?' follows the URL, which separates the URL and the so-called query string (or query parameters, request parameters) followed.
+The query string comprises the "name=value" pairs of the selected input elements (i.e., "username=Alan+Smith" and "gender=m"). The "name=value" pairs are separated by an '&'. Also take note that the blank (in "Alan Smith") is replace by a '+'. This is because special characters are not permitted in the URL and have to be encoded (known as URL-encoding). Blank is encoded as '+' (or %20). Other characters are encoded as %xx, where xx is the ASCII code in hex. 
+
+For example, '&' as %26, '?' as %3F.
+Some input elements such as checkboxes may trigger multiple parameter values, e.g., "language=java&language=c&language=cs" if all three boxes are checked.
+HTTP provides two request methods: GET and POST. For GET request, the query parameters are appended behind the URL. For POST request, the query string are sent in the request message's body. POST request is often preferred, as users will not see the strange string in the URL and it can send an unlimited amount of data. The amount of data that can be sent via the GET request is limited by the length of the URL. The request method is specified in the <form method="get|post"...> start-tag. In this tutorial, we use the GET request, so that you 

@@ -1,0 +1,26 @@
+Dissecting the Program:
+
+We define a Java class called servletapp (in Line 8). Line 2 places this class in a package called mypack. Hence, we save the source file under "mypack" of the "servletapp\WEB-INF\src" directory, following the Java's standard package directory structure.
+
+We need the Servlet API library to compile this program. Servlet API is not part of JDK or Java SE (but belongs to Java EE). Tomcat provides a copy of servlet API called "servlet-api.jar" in "<TOMCAT_HOME>\lib". You could copy "servlet-api.jar" from "<TOMCAT_HOME>\lib" to "<JAVA_HOME>\jre\lib\ext" (the JDK Extension Directory), or include the Servlet JAR file in your CLASSPATH.
+
+To compile the program under JDK, we need to use the -d option to specify the output destination directory to place the compiled class in "servletapp\WEB-INF\class\mypack" directory.
+// Change directory to <TOMCAT_HOME>\webapps\servletapp\WEB-INF
+c:\...> cd <TOMCAT_HOME>\webapps\servletapp\WEB-INF
+  
+// Compile the source file and place the class in the specified destination directory
+c:\<TOMCAT_HOME>\webapps\servletapp\WEB-INF> javac -d classes src\mypack\HelloServlet.java
+
+The option "-d classes" specifies the output destination directory, relative to the current directory. The output is <TOMCAT_HOME>\webapps\servletapp\WEB-INF\classes\mypack\servletapp.class. The compiler creates the package directory "mypack" automatically.
+We don't write a servlet from scratch. Instead, we create a servlet by sub-classing javax.servlet.http.HttpServlet (in Line 8).
+
+As mentioned, a servlet is invoked in response to a request URL issued by a client. Specifically, a client issues an HTTP request, the server routes the request message to the servlet for processing. The servlet returns a response message to the client.
+
+An HTTP request could use either GET or POST request methods, which will be processed by the servlet's doGet() or doPost() method, respectively.
+In the servletapp, we override the doGet() method (as denoted by the annotation @Override). The doGet() runs in response to an HTTP GET request issued by a user via an URL. doGet() takes two arguments, an HttpServletRequest object and an HttpServletResponse object, corresponding to the request and response messages.
+The HttpServletRequest object can be used to retrieve incoming HTTP request headers and form data. The HttpServletResponse object can be used to set the HTTP response headers (e.g., content-type) and the response message body.
+
+In Line 13, we set the "MIME" type of the response message to "text/html". The client need to know the message type in order to correctly display the data received. (Other MIME types include text/plain, image/jpeg, video/mpeg, application/xml, and many others.) 
+
+
+In Line 15, we retrieve a Writer object called out for writing the response message to the client over the network. We then use the out.println() to print out a proper HTML page containing the message "Hello, world!". This servlet also echoes some of the clients's request information, and prints a random number for each request.

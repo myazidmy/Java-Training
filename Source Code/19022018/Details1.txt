@@ -1,0 +1,24 @@
+Dissecting the Program
+
+The query string comprises name=value pairs. We can retrieve the query parameters from the request message (captured in doGet()'s argument HttpServletRequest request) via one of the following methods:
+
+request.getParameter("paramName")
+  // Returns the parameter value in a String.
+  // Returns null if parameter name does not exist.
+  // Returns the first parameter value for a multi-value parameter.
+ 
+request.getParameterValues("paramName")
+  // Return all the parameter values in a String[].
+  // Return null if the parameter name does not exist.
+ 
+request.getParameterNames()
+  // Return all the parameter names in a java.util.Enumeration, possibly empty.
+
+Take note that the parameter name is case sensitive.
+
+We use request.getParameter("paramName") to retrieve the parameter value for most of the single-value input elements (such as text field, radio button, text area, etc). If the parameter is present (not null), we trim() the returned string to remove the leading and trailing white spaces.
+We also replace the special HTML characters (>, <, &, ") with the HTML escape sequences in the input strings, before we echo them back to the client via out.println(). This step is necessary to prevent the so-called command-injection attack, where user enters a script into the text field. The replacement is done via a static helper method htmlFilter(). 
+
+Rule of thumb: Any text string taken from the client and echoing back via out.println() needs to be filtered!
+If the parameter could possess multiple values (e.g., checkboxes), we use request.getParameterValues(), which returns an array of String or null if the parameter does not exist.
+One of the nice features of Java servlet is that all the form data decoding (i.e., URL-decoding) is handled automatically. That is, '+' will be decoded to blank, %xx decoded into the corresponding character.

@@ -1,0 +1,6 @@
+1. You can't run an insert statement with executeQuery. Use execute or executeUpdate instead. The executeQuery method is for select statements.
+
+2. Run Chat Application
+
+3. Start Java EE WebApps
+
